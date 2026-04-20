@@ -2,343 +2,1011 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>kevinharry0x | Green Forest Moon · Cyber Arsenal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kevinharry0x | Cyber Arsenal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      /* Block text selection globally, but we will override for specific elements */
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
+    :root {
+      --ice: #e8f4f8;
+      --glacier: #c0dde8;
+      --arctic: #8ecae6;
+      --signal: #00d4ff;
+      --aurora-green: #06ffa5;
+      --aurora-purple: #b48fff;
+      --deep: #0a1628;
+      --mid: #0f2040;
+      --panel: rgba(15, 35, 65, 0.75);
+      --panel-light: rgba(20, 45, 80, 0.6);
+      --border: rgba(0, 212, 255, 0.2);
+      --border-hot: rgba(0, 212, 255, 0.6);
+      --text: #d0e8f2;
+      --text-dim: #7aa8c0;
+      --mono: 'Space Mono', monospace;
+      --display: 'Syne', sans-serif;
+      --body: 'Outfit', sans-serif;
     }
 
-    /* Allow copy for arsenal tool command, contact details, and specific elements */
-    .tool-command,
-    .contact-detail,
-    .contact-detail span,
-    .social-icon,
-    .contact-note,
-    .code-block,
-    .skill-tag,
-    .filter-btn,
-    .search-box input,
-    .btn,
-    .avatar-circle i,
-    .logo,
-    .tool-name,
-    .skill-badge,
-    .tag {
-      user-select: text;
-      -webkit-user-select: text;
-      -moz-user-select: text;
-      -ms-user-select: text;
-    }
-
-    /* Allow text selection inside input fields and command blocks */
-    input, textarea, [contenteditable="true"] {
-      user-select: text;
-      -webkit-user-select: text;
-    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: var(--body);
+      background: var(--deep);
+      color: var(--text);
       overflow-x: hidden;
-      background: #0a1a0a;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="27" viewBox="0 0 24 27"><polygon points="2,2 22,13 12,16 2,25" fill="%238ab86e" stroke="%232a5a2a" stroke-width="1.5" /><circle cx="7" cy="12" r="2" fill="%23d4e8a0" /><path d="M12 16 L14 23 L10 23 Z" fill="%235a7a3a" /></svg>') 4 4, auto;
+      cursor: none;
     }
 
-    /* Custom cursor for interactive elements */
-    a, button, .btn, .filter-btn, .social-icon, .contact-detail, .tool-card {
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="27" viewBox="0 0 24 27"><polygon points="2,2 22,13 12,16 2,25" fill="%23b8e08a" stroke="%233d7a3a" stroke-width="1.5" /><circle cx="7" cy="12" r="2" fill="%23f5efda" /></svg>') 4 4, pointer;
+    /* ── CUSTOM CURSOR ── */
+    .cursor-ring {
+      position: fixed; width: 32px; height: 32px;
+      border: 2px solid var(--signal); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, opacity .2s, border-color .2s;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      position: fixed; width: 6px; height: 6px;
+      background: var(--signal); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+    }
+    body:has(a:hover) .cursor-ring,
+    body:has(button:hover) .cursor-ring { width: 48px; height: 48px; border-color: var(--aurora-green); }
+
+    /* ── BACKGROUND ── */
+    .bg-layer {
+      position: fixed; inset: 0; z-index: -3;
+      background:
+        radial-gradient(ellipse 120% 60% at 70% -10%, rgba(0,180,255,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 80% at -10% 80%, rgba(6,255,165,0.07) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 90% 90%, rgba(180,143,255,0.08) 0%, transparent 50%),
+        linear-gradient(175deg, #040d1a 0%, #0a1628 40%, #061020 100%);
     }
 
-    .forest-moon-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; }
-    .bg-green-forest { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format'); background-size: cover; background-position: center 20%; background-repeat: no-repeat; filter: brightness(0.5) contrast(1.1) saturate(1.2); animation: slowZoom 40s ease-in-out infinite alternate; }
-    .green-mist { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 30% 25%, rgba(60,100,45,0.35), rgba(5,25,8,0.8)); z-index: -2; }
-    .moon-glow { position: absolute; top: 10%; right: 12%; width: 220px; height: 220px; background: radial-gradient(circle, rgba(255,240,170,0.5), rgba(255,220,120,0.2), transparent); border-radius: 50%; filter: blur(25px); animation: moonPulse 12s infinite; pointer-events: none; z-index: -1; }
-    .moon-core { position: absolute; top: 10%; right: 12%; width: 85px; height: 85px; background: radial-gradient(circle, #fff8e0, #f0e0a0); border-radius: 50%; box-shadow: 0 0 50px rgba(255,240,150,0.6); animation: moonFloat 8s infinite; pointer-events: none; z-index: -1; }
-    @keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.06); } }
-    @keyframes moonPulse { 0%,100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.12); } }
-    @keyframes moonFloat { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
-    .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
-    nav { position: sticky; top: 0; background: rgba(5,18,8,0.88); backdrop-filter: blur(16px); z-index: 100; border-bottom: 1px solid rgba(120,170,80,0.4); padding: 1rem 0; }
-    .nav-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-    .logo { font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, #d4e8a0, #8ab86e); background-clip: text; -webkit-background-clip: text; color: transparent; font-family: 'JetBrains Mono', monospace; user-select: text; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
-    .nav-links a { text-decoration: none; font-weight: 500; color: #d4e8c0; transition: 0.2s; font-size: 0.95rem; }
-    .nav-links a:hover { color: #b8e08a; }
-    .btn { display: inline-block; padding: 0.8rem 2rem; border-radius: 60px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; cursor: pointer; user-select: text; }
-    .btn-primary { background: #2a5a2a; color: #f5efda; box-shadow: 0 8px 20px rgba(0,0,0,0.5); border: 1px solid #8ab86e; }
-    .btn-primary:hover { background: #3d7a3a; transform: translateY(-3px); }
-    .hero { padding: 5rem 0 3rem; display: flex; flex-wrap: wrap; align-items: center; gap: 3rem; }
-    .hero-content { flex: 1.2; background: rgba(5,20,8,0.55); backdrop-filter: blur(12px); border-radius: 48px; padding: 2rem; border: 1px solid rgba(120,160,80,0.4); }
-    .hero-badge { background: rgba(42,90,42,0.8); color: #d4e8a0; display: inline-block; padding: 0.4rem 1.2rem; border-radius: 60px; font-size: 0.75rem; font-weight: 600; margin-bottom: 1.2rem; font-family: 'JetBrains Mono', monospace; }
-    .hero-content h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.2; color: #faf3df; }
-    .hero-desc { font-size: 1.1rem; color: #d4e8c0; margin: 1.5rem 0 2rem; }
-    .avatar-circle { background: radial-gradient(circle at 30% 30%, rgba(80,120,60,0.5), rgba(20,40,15,0.7)); backdrop-filter: blur(4px); width: 280px; height: 280px; border-radius: 48% 52% 35% 65% / 70% 40% 60% 30%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(120,160,80,0.5); }
-    .avatar-circle i { font-size: 6rem; color: #d4e8a0; user-select: text; }
-    .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 2rem; border-left: 4px solid #8ab86e; padding-left: 1.2rem; color: #f5efda; }
-    .skills-grid { display: flex; flex-wrap: wrap; gap: 0.9rem; }
-    .skill-tag { background: rgba(5,20,8,0.7); backdrop-filter: blur(8px); border-radius: 60px; padding: 0.6rem 1.5rem; font-weight: 500; border: 1px solid rgba(120,160,80,0.4); color: #d4e8c0; transition: all 0.25s; user-select: text; }
-    .skill-tag:hover { transform: translateY(-3px); background: rgba(42,90,42,0.8); }
-    .arsenal-controls { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; justify-content: space-between; align-items: center; }
-    .search-box { flex: 1; min-width: 250px; }
-    .search-box input { width: 100%; background: rgba(5,20,8,0.7); border: 1px solid rgba(120,160,80,0.5); padding: 0.9rem 1.2rem; border-radius: 60px; color: #d4e8c0; font-family: inherit; font-size: 0.9rem; user-select: text; }
-    .search-box input::placeholder { color: #8a9a6a; }
-    .filter-buttons { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-    .filter-btn { background: rgba(5,20,8,0.6); border: 1px solid rgba(120,160,80,0.4); padding: 0.5rem 1.2rem; border-radius: 40px; color: #d4e8c0; cursor: pointer; transition: all 0.2s; font-size: 0.8rem; user-select: text; }
-    .filter-btn:hover, .filter-btn.active { background: #2a5a2a; border-color: #8ab86e; color: #f5efda; }
-    .arsenal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
-    .tool-card { background: rgba(5,20,8,0.7); backdrop-filter: blur(12px); border-radius: 24px; padding: 1.5rem; border: 1px solid rgba(120,160,80,0.4); transition: all 0.3s ease; }
-    .tool-card:hover { transform: translateY(-5px); border-color: #8ab86e; background: rgba(20,40,15,0.85); }
-    .tool-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
-    .tool-name { font-size: 1.4rem; font-weight: 700; color: #f5efda; font-family: 'JetBrains Mono', monospace; user-select: text; }
-    .skill-badge { padding: 0.2rem 0.8rem; border-radius: 40px; font-size: 0.7rem; font-weight: 600; border: 1px solid #8ab86e; user-select: text; }
-    .skill-badge.intermediate { background: #2a5a2a; color: #d4e8a0; }
-    .skill-badge.basic { background: #1a3a1a; color: #a8c88a; border-color: #6a9a5a; }
-    .tool-desc { color: #d4e8c0; font-size: 0.85rem; margin-bottom: 1rem; line-height: 1.5; }
-    .tool-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
-    .tag { background: rgba(5,20,8,0.6); padding: 0.2rem 0.7rem; border-radius: 40px; font-size: 0.65rem; font-weight: 500; color: #b8d88a; border: 1px solid rgba(120,160,80,0.3); user-select: text; }
-    .tool-command { background: rgba(5,15,5,0.6); border-radius: 12px; padding: 0.7rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #d4e8a0; border-left: 2px solid #8ab86e; margin-top: 0.5rem; user-select: text; cursor: copy; transition: 0.1s; }
-    .tool-command:hover { background: rgba(42,90,42,0.5); }
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 2rem; }
-    .project-card { background: rgba(5,20,8,0.7); backdrop-filter: blur(12px); border-radius: 28px; overflow: hidden; transition: all 0.35s ease; border: 1px solid rgba(120,160,80,0.4); }
-    .project-card:hover { transform: translateY(-8px); border-color: #8ab86e; }
-    .project-img { height: 170px; background: linear-gradient(135deg, #1a3a1a, #0a1a0a); display: flex; align-items: flex-end; justify-content: flex-start; padding: 1rem; }
-    .project-img i { font-size: 2.5rem; background: rgba(5,20,8,0.7); padding: 0.6rem; border-radius: 60px; color: #d4e8a0; }
-    .project-info { padding: 1.5rem; }
-    .project-info h3 { font-size: 1.4rem; margin-bottom: 0.5rem; color: #f5efda; }
-    .project-info p { color: #c4d8a8; }
-    .code-block { background: rgba(5,15,5,0.6); border-radius: 16px; padding: 0.9rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #d4e8a0; margin: 1rem 0; border-left: 3px solid #8ab86e; user-select: text; }
-    .story-card { background: rgba(5,20,8,0.85); backdrop-filter: blur(14px); border-radius: 32px; padding: 2.2rem; border: 1px solid rgba(120,160,80,0.5); }
-    .story-chapter { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px dashed rgba(120,160,80,0.3); }
-    .story-chapter:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .chapter-title { font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; color: #8ab86e; letter-spacing: 1px; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
-    .story-card p { margin-bottom: 1rem; line-height: 1.75; color: #ece4cf; font-size: 1rem; }
-    .story-card strong { color: #c8e8a0; }
-    .quote-block { font-style: italic; border-left: 4px solid #8ab86e; padding-left: 1.5rem; margin: 1.2rem 0 1.2rem 1rem; background: rgba(5,25,8,0.5); border-radius: 20px; padding: 1rem 1.5rem; color: #e0e8c8; }
-    .proverb-section { margin-top: 2rem; padding-top: 1.5rem; text-align: center; border-top: 2px solid rgba(120,160,80,0.4); }
-    .proverb-text { font-size: 1.2rem; font-style: italic; color: #d4e8a0; font-family: 'Georgia', serif; background: rgba(5,30,8,0.5); display: inline-block; padding: 0.8rem 2rem; border-radius: 60px; }
-    .proverb-author { margin-top: 0.8rem; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: #8a9a6a; }
-    .contact-flex { display: flex; flex-wrap: wrap; gap: 2rem; background: rgba(5,20,8,0.7); backdrop-filter: blur(14px); border-radius: 36px; padding: 2rem; border: 1px solid rgba(120,160,80,0.4); justify-content: space-between; align-items: flex-start; }
-    .contact-detail { display: flex; align-items: center; gap: 1rem; margin: 1rem 0; color: #d4e8c0; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; cursor: pointer; padding: 0.3rem 0.5rem; border-radius: 12px; width: fit-content; user-select: text; }
-    .contact-detail:hover { background: rgba(80,120,60,0.4); transform: translateX(5px); }
-    .contact-detail i { width: 28px; color: #8ab86e; }
-    .social-icon { background: rgba(5,20,8,0.7); width: 44px; height: 44px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; color: #d4e8a0; transition: 0.2s; margin-right: 0.6rem; user-select: text; }
-    .social-icon:hover { background: #3d7a3a; transform: translateY(-3px); }
-    .contact-note { margin-top: 1.8rem; padding: 1rem 1rem 0.5rem 1rem; border-top: 1px solid rgba(120,160,80,0.3); color: #b8d88a; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; user-select: text; }
-    footer { text-align: center; padding: 2.5rem; border-top: 1px solid rgba(120,160,80,0.3); color: #b8d88a; background: rgba(5,15,8,0.6); }
-    @media (max-width: 800px) { .container { padding: 0 1.2rem; } .hero { flex-direction: column-reverse; text-align: center; } .hero-content h1 { font-size: 2.3rem; } .arsenal-controls { flex-direction: column; align-items: stretch; } .filter-buttons { justify-content: center; } .moon-core, .moon-glow { transform: scale(0.6); right: -5%; top: 5%; } .contact-flex { flex-direction: column; } }
-    
-    /* Toast notification */
-    .copy-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a3a1a; color: #d4e8a0; padding: 10px 20px; border-radius: 40px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; z-index: 1000; backdrop-filter: blur(8px); border: 1px solid #8ab86e; pointer-events: none; opacity: 0; transition: opacity 0.3s; white-space: nowrap; }
+    /* Animated grid */
+    .bg-grid {
+      position: fixed; inset: 0; z-index: -2;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridDrift 30s linear infinite;
+    }
+    @keyframes gridDrift { 0% { transform: translateY(0); } 100% { transform: translateY(60px); } }
+
+    /* Ice crystal shapes */
+    .crystal {
+      position: fixed; pointer-events: none; z-index: -1;
+      opacity: 0.06;
+    }
+    .crystal svg { fill: none; stroke: var(--signal); }
+    .c1 { top: 5%; right: 8%; width: 260px; animation: crystalSpin 60s linear infinite; }
+    .c2 { bottom: 15%; left: 4%; width: 180px; animation: crystalSpin 80s linear infinite reverse; }
+    .c3 { top: 40%; right: 2%; width: 120px; animation: crystalSpin 45s linear infinite; }
+    @keyframes crystalSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Scanline overlay */
+    .scanlines {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      );
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+    section { padding: 5rem 0; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(4, 13, 26, 0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+    }
+    .nav-bar { display: flex; justify-content: space-between; align-items: center; }
+    .logo {
+      font-family: var(--mono); font-size: 1.2rem; font-weight: 700;
+      color: var(--signal); letter-spacing: 1px;
+      text-shadow: 0 0 20px rgba(0,212,255,0.5);
+      position: relative;
+    }
+    .logo::before {
+      content: '>_';
+      margin-right: 6px;
+      color: var(--aurora-green);
+      animation: blink .8s step-end infinite;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono); font-size: 0.78rem;
+      color: var(--text-dim); text-decoration: none;
+      letter-spacing: 1px; text-transform: uppercase;
+      transition: color 0.2s, text-shadow 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--signal);
+      transition: width 0.25s;
+    }
+    .nav-links a:hover { color: var(--signal); text-shadow: 0 0 10px rgba(0,212,255,0.6); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-tag {
+      font-family: var(--mono); font-size: 0.7rem; color: var(--aurora-green);
+      border: 1px solid rgba(6,255,165,0.3); padding: 0.3rem 0.9rem; border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 90vh; display: grid;
+      grid-template-columns: 1.2fr 1fr; gap: 4rem;
+      align-items: center; padding: 6rem 0 4rem;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono); font-size: 0.75rem;
+      color: var(--aurora-green); letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 32px; height: 1px; background: var(--aurora-green);
+    }
+
+    .hero h1 {
+      font-family: var(--display); font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 800; line-height: 1.1; color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .hero h1 .handle {
+      display: block; font-size: clamp(1.6rem, 3vw, 2.6rem);
+      font-family: var(--mono);
+      background: linear-gradient(90deg, var(--signal), var(--aurora-green));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 1rem; color: var(--text-dim); margin: 1.5rem 0 2.5rem;
+      line-height: 1.7; max-width: 480px;
+    }
+    .hero-roles {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2.5rem;
+    }
+    .role-chip {
+      font-family: var(--mono); font-size: 0.7rem;
+      border: 1px solid var(--border-hot); color: var(--signal);
+      padding: 0.35rem 0.9rem; border-radius: 3px;
+      background: rgba(0,212,255,0.05);
+      letter-spacing: 0.5px;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      font-family: var(--mono); font-size: 0.8rem;
+      padding: 0.85rem 2rem; border-radius: 4px;
+      text-decoration: none; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      transition: all 0.25s; cursor: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary {
+      background: var(--signal); color: var(--deep);
+      box-shadow: 0 0 20px rgba(0,212,255,0.35), 0 0 60px rgba(0,212,255,0.1);
+    }
+    .btn-primary:hover {
+      background: #fff; box-shadow: 0 0 30px rgba(0,212,255,0.6), 0 0 80px rgba(0,212,255,0.2);
+      transform: translateY(-2px);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border-hot);
+    }
+    .btn-ghost:hover {
+      background: rgba(0,212,255,0.08); border-color: var(--signal);
+      color: var(--signal); transform: translateY(-2px);
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+    }
+    .avatar-hex {
+      position: relative; width: 240px; height: 240px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hex-ring {
+      position: absolute; inset: 0;
+      border: 2px solid var(--signal);
+      clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+      animation: hexSpin 20s linear infinite;
+      opacity: 0.6;
+    }
+    .hex-ring-2 {
+      position: absolute; inset: 14px;
+      border: 1px solid var(--aurora-green);
+      clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+      animation: hexSpin 15s linear infinite reverse;
+      opacity: 0.4;
+    }
+    .hex-core {
+      width: 160px; height: 160px;
+      background: radial-gradient(circle at 35% 35%, rgba(0,180,255,0.3), rgba(10,22,40,0.9));
+      clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(0,212,255,0.4);
+    }
+    .hex-core i { font-size: 4.5rem; color: var(--signal); text-shadow: 0 0 30px rgba(0,212,255,0.8); }
+    @keyframes hexSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .signal-bars {
+      display: flex; align-items: flex-end; gap: 4px; height: 40px;
+    }
+    .sig-bar {
+      width: 8px; border-radius: 2px 2px 0 0;
+      background: var(--signal);
+      opacity: 0.7;
+      animation: signalPulse 1.2s ease-in-out infinite;
+    }
+    .sig-bar:nth-child(1) { height: 40%; animation-delay: 0s; }
+    .sig-bar:nth-child(2) { height: 65%; animation-delay: 0.15s; }
+    .sig-bar:nth-child(3) { height: 100%; animation-delay: 0.3s; }
+    .sig-bar:nth-child(4) { height: 75%; animation-delay: 0.45s; }
+    .sig-bar:nth-child(5) { height: 50%; animation-delay: 0.6s; }
+    @keyframes signalPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+    .status-strip {
+      font-family: var(--mono); font-size: 0.65rem;
+      color: var(--aurora-green); letter-spacing: 2px;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--aurora-green);
+      box-shadow: 0 0 8px var(--aurora-green);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.4); } }
+
+    /* ── SECTION TITLES ── */
+    .section-label {
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--signal); letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 0.6rem;
+      display: flex; align-items: center; gap: 0.7rem;
+    }
+    .section-label::before { content: '//'; color: var(--aurora-green); }
+    .section-title {
+      font-family: var(--display); font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 800; color: #fff; margin-bottom: 3rem;
+      position: relative; padding-bottom: 1rem;
+    }
+    .section-title::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--signal), transparent);
+    }
+
+    /* ── SKILLS ── */
+    .skills-section { background: linear-gradient(180deg, transparent, rgba(0,212,255,0.03), transparent); }
+    .skills-wrap { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+    .skill-tag {
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--text); padding: 0.5rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: var(--panel-light);
+      backdrop-filter: blur(8px);
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+    }
+    .skill-tag:hover {
+      border-color: var(--signal); color: var(--signal);
+      background: rgba(0,212,255,0.08);
+      box-shadow: 0 0 12px rgba(0,212,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    /* ── ARSENAL ── */
+    .arsenal-controls {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      margin-bottom: 2.5rem;
+      align-items: center; justify-content: space-between;
+    }
+    .search-wrap {
+      flex: 1; min-width: 240px; position: relative;
+    }
+    .search-wrap i {
+      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-dim); font-size: 0.85rem;
+    }
+    .search-wrap input {
+      width: 100%; background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 0.8rem 1rem 0.8rem 2.5rem;
+      border-radius: 4px; color: var(--text);
+      font-family: var(--mono); font-size: 0.8rem;
+      transition: border-color 0.2s;
+    }
+    .search-wrap input::placeholder { color: var(--text-dim); }
+    .search-wrap input:focus { outline: none; border-color: var(--signal); box-shadow: 0 0 0 3px rgba(0,212,255,0.08); }
+
+    .filter-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .filter-btn {
+      font-family: var(--mono); font-size: 0.7rem;
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 0.45rem 1rem;
+      border-radius: 3px; cursor: none; letter-spacing: 0.5px;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(0,212,255,0.12); border-color: var(--signal);
+      color: var(--signal); box-shadow: 0 0 10px rgba(0,212,255,0.1);
+    }
+
+    .arsenal-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px,1fr));
+      gap: 1.5rem;
+    }
+    .tool-card {
+      background: var(--panel); backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.5rem; transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .tool-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: linear-gradient(180deg, var(--signal), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .tool-card:hover {
+      border-color: var(--border-hot); transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,212,255,0.1);
+    }
+    .tool-card:hover::before { opacity: 1; }
+
+    .tool-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; gap: 0.5rem; }
+    .tool-name { font-family: var(--mono); font-size: 1.15rem; font-weight: 700; color: #fff; }
+    .skill-badge {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.5px;
+      padding: 0.2rem 0.7rem; border-radius: 3px; white-space: nowrap;
+    }
+    .skill-badge.intermediate { background: rgba(0,212,255,0.12); color: var(--signal); border: 1px solid rgba(0,212,255,0.3); }
+    .skill-badge.basic { background: rgba(6,255,165,0.08); color: var(--aurora-green); border: 1px solid rgba(6,255,165,0.2); }
+
+    .tool-desc { font-size: 0.84rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 1rem; }
+    .tool-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem; }
+    .tag {
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.2rem 0.55rem; border-radius: 2px;
+      letter-spacing: 0.3px;
+    }
+    .tool-cmd {
+      background: rgba(0,0,0,0.4); border-radius: 4px;
+      padding: 0.7rem 0.9rem;
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--aurora-green); border-left: 2px solid var(--aurora-green);
+      cursor: copy; transition: background 0.15s;
+      user-select: text; word-break: break-all;
+    }
+    .tool-cmd:hover { background: rgba(6,255,165,0.07); }
+    .tool-cmd::before { content: '$ '; opacity: 0.5; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      background: var(--panel); backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 8px;
+      overflow: hidden; transition: all 0.3s;
+    }
+    .project-card:hover {
+      transform: translateY(-6px); border-color: var(--border-hot);
+      box-shadow: 0 12px 40px rgba(0,212,255,0.1);
+    }
+    .project-banner {
+      height: 160px;
+      background: linear-gradient(135deg, rgba(0,50,80,0.8), rgba(10,22,40,0.95));
+      display: flex; flex-direction: column;
+      justify-content: space-between; padding: 1.2rem;
+      position: relative; overflow: hidden;
+    }
+    .project-banner::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 20px,
+        rgba(0,212,255,0.02) 20px, rgba(0,212,255,0.02) 21px
+      );
+    }
+    .proj-icon { font-size: 2.2rem; color: var(--signal); text-shadow: 0 0 20px rgba(0,212,255,0.6); }
+    .proj-cat {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 2px;
+      color: var(--aurora-green); text-transform: uppercase;
+    }
+    .project-body { padding: 1.4rem; }
+    .project-body h3 {
+      font-family: var(--mono); font-size: 1.05rem; font-weight: 700;
+      color: #fff; margin-bottom: 0.6rem;
+    }
+    .project-body p { font-size: 0.84rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 1rem; }
+    .code-snip {
+      background: rgba(0,0,0,0.45); border-radius: 4px; padding: 0.8rem;
+      font-family: var(--mono); font-size: 0.65rem; color: var(--aurora-green);
+      border-left: 2px solid var(--aurora-green); line-height: 1.7;
+      user-select: text;
+    }
+    .code-snip .dim { color: var(--text-dim); }
+    .code-snip .warn { color: #ffd166; }
+    .code-snip .ok { color: var(--aurora-green); }
+
+    /* ── ORIGIN / STORY ── */
+    .origin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .chapter {
+      background: var(--panel); backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.8rem; margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .chapter::before {
+      content: attr(data-num);
+      position: absolute; top: -1rem; left: 1.5rem;
+      font-family: var(--mono); font-size: 0.65rem;
+      background: var(--deep); color: var(--signal);
+      padding: 0.2rem 0.7rem; border: 1px solid var(--border-hot);
+      border-radius: 3px; letter-spacing: 1px;
+    }
+    .chapter h3 {
+      font-family: var(--display); font-size: 1.1rem; font-weight: 700;
+      color: #fff; margin-bottom: 0.8rem; margin-top: 0.2rem;
+    }
+    .chapter p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.75; }
+    .chapter strong { color: var(--text); }
+    .chapter .highlight { color: var(--signal); font-weight: 600; }
+
+    .quote-panel {
+      background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(6,255,165,0.03));
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 8px; padding: 2rem;
+      position: relative; overflow: hidden;
+    }
+    .quote-panel::before {
+      content: '"'; position: absolute; top: -0.5rem; left: 1.2rem;
+      font-size: 6rem; font-family: Georgia, serif;
+      color: rgba(0,212,255,0.08); line-height: 1;
+    }
+    .quote-panel blockquote {
+      font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-style: italic;
+      color: var(--glacier); line-height: 1.7; position: relative; z-index: 1;
+    }
+    .quote-panel cite {
+      display: block; margin-top: 1rem;
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--aurora-green); letter-spacing: 1px;
+    }
+
+    .proverb-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 2rem; text-align: center;
+      margin-top: 1.5rem;
+    }
+    .proverb-card p {
+      font-family: 'Outfit', sans-serif; font-size: 1rem;
+      font-style: italic; color: var(--glacier); line-height: 1.7;
+    }
+    .proverb-card span {
+      display: block; font-family: var(--mono); font-size: 0.68rem;
+      color: var(--text-dim); margin-top: 0.7rem; letter-spacing: 1px;
+    }
+
+    /* ── CONTACT ── */
+    .contact-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: start; }
+    .contact-card {
+      background: var(--panel); backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 2rem;
+    }
+    .contact-card h3 {
+      font-family: var(--display); font-size: 1.3rem; font-weight: 700;
+      color: #fff; margin-bottom: 1.5rem;
+    }
+    .contact-row {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.8rem; border-radius: 5px;
+      color: var(--text-dim); font-family: var(--mono); font-size: 0.8rem;
+      cursor: pointer; transition: all 0.2s; margin-bottom: 0.5rem;
+      border: 1px solid transparent;
+    }
+    .contact-row:hover {
+      background: rgba(0,212,255,0.06); border-color: var(--border);
+      color: var(--signal); transform: translateX(4px);
+    }
+    .contact-row i { width: 22px; color: var(--signal); }
+    .socials { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+    .soc-btn {
+      width: 42px; height: 42px; border-radius: 4px;
+      border: 1px solid var(--border); background: var(--panel-light);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim); text-decoration: none;
+      transition: all 0.2s; font-size: 0.9rem;
+    }
+    .soc-btn:hover {
+      border-color: var(--signal); color: var(--signal);
+      box-shadow: 0 0 14px rgba(0,212,255,0.2);
+    }
+    .pgp-note {
+      margin-top: 1.5rem; padding: 0.8rem; border-radius: 4px;
+      background: rgba(6,255,165,0.04); border: 1px solid rgba(6,255,165,0.15);
+      font-family: var(--mono); font-size: 0.68rem; color: var(--aurora-green);
+      letter-spacing: 0.5px;
+    }
+
+    .signal-card {
+      background: linear-gradient(135deg, rgba(0,212,255,0.04), rgba(6,255,165,0.03));
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 2rem;
+    }
+    .signal-card h3 {
+      font-family: var(--display); font-size: 1.2rem; font-weight: 700;
+      color: #fff; margin-bottom: 0.8rem;
+    }
+    .signal-card p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 1.5rem; }
+    .enc-badge {
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--signal); letter-spacing: 1px;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .enc-badge i { color: var(--aurora-green); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0; text-align: center;
+      background: rgba(4,13,26,0.6);
+    }
+    footer p { font-family: var(--mono); font-size: 0.72rem; color: var(--text-dim); line-height: 2; }
+    footer .accent { color: var(--signal); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: rgba(4,13,26,0.9); color: var(--aurora-green);
+      padding: 0.7rem 1.5rem; border-radius: 4px;
+      font-family: var(--mono); font-size: 0.75rem;
+      border: 1px solid rgba(6,255,165,0.4);
+      z-index: 9000; pointer-events: none; opacity: 0;
+      transition: opacity 0.3s; backdrop-filter: blur(12px);
+      white-space: nowrap;
+    }
+
+    /* ── SCROLL UP ── */
+    .scroll-up {
+      position: fixed; bottom: 30px; right: 30px;
+      width: 42px; height: 42px;
+      background: rgba(0,212,255,0.1); border: 1px solid var(--border-hot);
+      border-radius: 4px; display: flex; align-items: center; justify-content: center;
+      color: var(--signal); text-decoration: none;
+      transition: all 0.2s; opacity: 0; pointer-events: none;
+      z-index: 500;
+    }
+    .scroll-up.visible { opacity: 1; pointer-events: all; }
+    .scroll-up:hover { background: rgba(0,212,255,0.2); transform: translateY(-3px); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-hot), transparent);
+      margin: 0 0 4rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; text-align: center; padding: 4rem 0 2rem; }
+      .hero-eyebrow { justify-content: center; }
+      .hero-roles { justify-content: center; }
+      .hero-actions { justify-content: center; }
+      .hero-visual { order: -1; }
+      .origin-grid, .contact-layout { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .arsenal-controls { flex-direction: column; }
+      .section-title { font-size: 1.8rem; }
+    }
   </style>
 </head>
 <body>
 
-<div class="forest-moon-bg"><div class="bg-green-forest"></div><div class="green-mist"></div></div>
-<div class="moon-glow"></div><div class="moon-core"></div>
+<!-- cursor -->
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
 
+<!-- backgrounds -->
+<div class="bg-layer"></div>
+<div class="bg-grid"></div>
+<div class="scanlines"></div>
+
+<!-- crystal decorations -->
+<div class="crystal c1">
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" stroke-width="1">
+    <polygon points="100,10 190,55 190,145 100,190 10,145 10,55"/>
+    <polygon points="100,30 170,65 170,135 100,170 30,135 30,65"/>
+    <polygon points="100,50 150,75 150,125 100,150 50,125 50,75"/>
+    <line x1="100" y1="10" x2="100" y2="190"/><line x1="10" y1="55" x2="190" y2="145"/>
+    <line x1="10" y1="145" x2="190" y2="55"/>
+  </svg>
+</div>
+<div class="crystal c2">
+  <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" stroke-width="1">
+    <polygon points="80,5 155,42 155,118 80,155 5,118 5,42"/>
+    <polygon points="80,25 130,52 130,108 80,135 30,108 30,52"/>
+    <line x1="80" y1="5" x2="80" y2="155"/><line x1="5" y1="42" x2="155" y2="118"/>
+    <line x1="5" y1="118" x2="155" y2="42"/>
+  </svg>
+</div>
+<div class="crystal c3">
+  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" stroke-width="1">
+    <polygon points="60,4 116,32 116,88 60,116 4,88 4,32"/>
+    <polygon points="60,22 96,42 96,78 60,98 24,78 24,42"/>
+    <line x1="60" y1="4" x2="60" y2="116"/><line x1="4" y1="32" x2="116" y2="88"/>
+    <line x1="4" y1="88" x2="116" y2="32"/>
+  </svg>
+</div>
+
+<!-- NAV -->
 <nav>
   <div class="container nav-bar">
     <div class="logo">kevinharry0x</div>
     <ul class="nav-links">
-      <li><a href="#home">home</a></li><li><a href="#arsenal">arsenal</a></li><li><a href="#projects">projects</a></li><li><a href="#story">origin</a></li><li><a href="#contact">connect</a></li>
+      <li><a href="#home">home</a></li>
+      <li><a href="#arsenal">arsenal</a></li>
+      <li><a href="#projects">ops</a></li>
+      <li><a href="#story">origin</a></li>
+      <li><a href="#contact">signal</a></li>
     </ul>
+    <div class="nav-tag">STATUS: ONLINE</div>
   </div>
 </nav>
 
-<main>
-  <section id="home"><div class="container hero">
-    <div class="hero-content" data-aos="fade-right">
-      <div class="hero-badge"><i class="fas fa-leaf"></i> green forest moon · guardian</div>
-      <h1>Kevin Harry A<br><span style="color:#a8d88a;">// kevinharry0x</span></h1>
-      <p class="hero-desc">Cybersecurity Enthusiast · Ethical Hacker · Bug Hunter · Penetration Tester · IoT Security Researcher · Web Developer</p>
-      <div><a href="#arsenal" class="btn btn-primary"><i class="fas fa-skull"></i> view arsenal</a><a href="#contact" class="btn btn-primary" style="margin-left:1rem;background:#3d7a3a;"><i class="fas fa-envelope"></i> contact</a></div>
-    </div>
-    <div class="hero-image" data-aos="fade-left"><div class="avatar-circle"><i class="fas fa-user-secret"></i></div></div>
-  </div></section>
-
-  <section><div class="container" data-aos="fade-up">
-    <div class="section-title"><i class="fas fa-code"></i> tech stack & skills</div>
-    <div class="skills-grid"><span class="skill-tag">cybersec</span><span class="skill-tag">ethical hacking</span><span class="skill-tag">python</span><span class="skill-tag">bash scripting</span><span class="skill-tag">html/css</span><span class="skill-tag">javascript</span><span class="skill-tag">react</span><span class="skill-tag">IoT security</span><span class="skill-tag">bug bounty</span><span class="skill-tag">penetration testing</span><span class="skill-tag">CVE research</span></div>
-  </div></section>
-
-  <section id="arsenal"><div class="container">
-    <div class="section-title" data-aos="fade-right"><i class="fas fa-skull-crossbones"></i> cyber arsenal · tools of the trade</div>
-    <div class="arsenal-controls" data-aos="fade-up">
-      <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 search tools..."></div>
-      <div class="filter-buttons" id="filterButtons">
-        <button class="filter-btn active" data-filter="all">all</button><button class="filter-btn" data-filter="Recon">recon</button><button class="filter-btn" data-filter="Exploitation">exploitation</button><button class="filter-btn" data-filter="Network">network</button><button class="filter-btn" data-filter="Web">web</button><button class="filter-btn" data-filter="Password">password</button>
+<!-- HERO -->
+<section id="home">
+  <div class="container hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">ethical hacker · recon active</div>
+      <h1>Kevin Harry A<span class="handle">// kevinharry0x</span></h1>
+      <div class="hero-roles">
+        <span class="role-chip">Cybersecurity</span>
+        <span class="role-chip">Ethical Hacking</span>
+        <span class="role-chip">Bug Bounty</span>
+        <span class="role-chip">Pen Testing</span>
+        <span class="role-chip">IoT Security</span>
+        <span class="role-chip">Web Dev</span>
+      </div>
+      <p class="hero-desc">Cybersecurity enthusiast, ethical hacker, and bug hunter operating under the signal. Constant learner. Eternal student of the breach.</p>
+      <div class="hero-actions">
+        <a href="#arsenal" class="btn btn-primary"><i class="fas fa-crosshairs"></i> View Arsenal</a>
+        <a href="#contact" class="btn btn-ghost"><i class="fas fa-satellite-dish"></i> Open Channel</a>
       </div>
     </div>
-    <div class="arsenal-grid" id="arsenalGrid" data-aos="fade-up"></div>
-  </div></section>
+    <div class="hero-visual">
+      <div class="avatar-hex">
+        <div class="hex-ring"></div>
+        <div class="hex-ring-2"></div>
+        <div class="hex-core"><i class="fas fa-user-secret"></i></div>
+      </div>
+      <div class="signal-bars">
+        <div class="sig-bar"></div>
+        <div class="sig-bar"></div>
+        <div class="sig-bar"></div>
+        <div class="sig-bar"></div>
+        <div class="sig-bar"></div>
+      </div>
+      <div class="status-strip">
+        <div class="status-dot"></div>
+        SIGNAL ACTIVE · RECON MODE
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section id="projects"><div class="container">
-    <div class="section-title" data-aos="fade-right"><i class="fas fa-bug"></i> custom tools & exploits</div>
+<!-- SKILLS -->
+<section class="skills-section">
+  <div class="container">
+    <div class="section-label">capabilities</div>
+    <div class="section-title">Tech Stack & Skills</div>
+    <div class="skills-wrap">
+      <span class="skill-tag">cybersecurity</span>
+      <span class="skill-tag">ethical hacking</span>
+      <span class="skill-tag">python</span>
+      <span class="skill-tag">bash scripting</span>
+      <span class="skill-tag">html / css</span>
+      <span class="skill-tag">javascript</span>
+      <span class="skill-tag">react</span>
+      <span class="skill-tag">IoT security</span>
+      <span class="skill-tag">bug bounty</span>
+      <span class="skill-tag">penetration testing</span>
+      <span class="skill-tag">CVE research</span>
+    </div>
+  </div>
+</section>
+
+<!-- ARSENAL -->
+<section id="arsenal">
+  <div class="container">
+    <div class="section-label">tools of the trade</div>
+    <div class="section-title">Cyber Arsenal</div>
+    <div class="arsenal-controls">
+      <div class="search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="search tools...">
+      </div>
+      <div class="filter-row" id="filterButtons">
+        <button class="filter-btn active" data-filter="all">all</button>
+        <button class="filter-btn" data-filter="Recon">recon</button>
+        <button class="filter-btn" data-filter="Exploitation">exploit</button>
+        <button class="filter-btn" data-filter="Network">network</button>
+        <button class="filter-btn" data-filter="Web">web</button>
+        <button class="filter-btn" data-filter="Password">password</button>
+      </div>
+    </div>
+    <div class="arsenal-grid" id="arsenalGrid"></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">operations</div>
+    <div class="section-title">Custom Tools & Exploits</div>
     <div class="projects-grid">
-      <div class="project-card" data-aos="zoom-in-up"><div class="project-img"><i class="fas fa-search"></i></div><div class="project-info"><h3>OP::BUGDETECTOR</h3><p>Automated bug detection engine that crawls and identifies OWASP vulnerabilities. Reduces manual recon time by ~40%.</p><div class="code-block">$ python bugdetector.py --url target.com<br>[*] Crawling endpoints → 212 URLs<br>[!] SQLi at /product?id=10</div></div></div>
-      <div class="project-card" data-aos="zoom-in-up" data-aos-delay="100"><div class="project-img"><i class="fas fa-microchip"></i></div><div class="project-info"><h3>OP::KERNELSCAN</h3><p>Kernel-level vulnerability scanner that checks for misconfigurations and privilege escalation vectors.</p><div class="code-block">$ sudo kernel_scanner --deep<br>[!] CVE-2023-2640 detected<br>[✓] Remediation steps saved</div></div></div>
-      <div class="project-card" data-aos="zoom-in-up" data-aos-delay="200"><div class="project-img"><i class="fas fa-wifi"></i></div><div class="project-info"><h3>IOT::FORESTSCAN</h3><p>Firmware analysis & IoT security audit framework — scans for default creds and insecure services.</p><div class="code-block">$ iot_scanner --target 192.168.1.0/24<br>[⚠️] default password detected</div></div></div>
-    </div>
-  </div></section>
-
-  <section id="story"><div class="container">
-    <div class="section-title" data-aos="fade-right"><i class="fas fa-tree"></i> the journey · origin</div>
-    <div class="story-card" data-aos="flip-up">
-      <div class="story-chapter"><div class="chapter-title"><i class="fas fa-feather-alt"></i> chapter I · the awakening</div><p><strong>🔐 My cyber journey truly began in my first year of college.</strong> I had always been curious about hacking, but I didn't know where to start. That's when I met <strong>Hemanth Karal Varmaa</strong>. I asked him for advice, and over time we became close friends — he became my mentor and teacher. He introduced me to his circle, which included seniors who were already deep into the field.</p></div>
-      <div class="story-chapter"><div class="chapter-title"><i class="fas fa-meteor"></i> chapter II · the mentors</div><p>In time, I became interested in bug bounty, and I didn't know how to research — and that's where I met Malathi (senior) and Rishyendra (senior). They helped me learn new things, and we became so close — especially with Malathi, with whom I formed a brother-sister bond.<br>Hemanth helped me land an internship at <strong>IIT</strong> — and that's where everything changed. At IIT, I met two extraordinary seniors: <strong>Kabil Preetham</strong> and <strong>Amithab</strong>. Both are incredibly talented and brilliant minds. Kabil, though much senior, is the kind of person who treats everyone equally and speaks without ego. We had many online sessions filled with learning and genuine fun. Amithab is equally knowledgeable, but I'll admit — I had (and still have) a certain fear when talking to him. That very fear pushed me to learn more deeply.</p><div class="quote-block"><i class="fas fa-quote-left"></i> “A guide lights the path, but the walker must choose never to stop.”</div></div>
-      <div class="story-chapter"><div class="chapter-title"><i class="fas fa-seedling"></i> chapter III · the eternal student</div><p>If I hadn't met them, my life would have been a looping day without direction. My knowledge is still far from enough, but <strong>I will never stop learning</strong>. This is only the beginning.</p><p><strong>The people you meet shape your path.</strong> Grateful to Hemanth, Kabil, Amithab, Risyendra, Malathi, and everyone who guided me.</p></div>
-      <div class="proverb-section"><div class="proverb-text">“The green forest moon watches over those who seek wisdom in the shadows.”</div><div class="proverb-author">— kevinharry0x</div></div>
-    </div>
-  </div></section>
-
-  <section id="contact"><div class="container">
-    <div class="section-title" data-aos="fade-right"><i class="fas fa-envelope"></i> encrypted channel</div>
-    <div class="contact-flex" data-aos="fade-up">
-      <div class="contact-info"><h3 style="color:#f5efda;margin-bottom:1.5rem;">reach me securely</h3>
-        <div class="contact-detail" onclick="copyToClipboard('kevinharryorg@gmail.com')"><i class="fas fa-envelope"></i><span>kevinharryorg@gmail.com</span></div>
-        <div class="contact-detail" onclick="window.open('https://github.com/kevinharryorg-max','_blank')"><i class="fab fa-github"></i><span>github.com/kevinharryorg-max</span></div>
-        <div class="contact-detail" onclick="window.open('https://www.linkedin.com/in/kevin-harry-a-78349a329/','_blank')"><i class="fab fa-linkedin"></i><span>linkedin.com/in/kevin-harry-a-78349a329</span></div>
-        <div class="social-links" style="margin-top:1.5rem;"><a href="https://github.com/kevinharryorg-max" target="_blank" class="social-icon"><i class="fab fa-github"></i></a><a href="https://www.linkedin.com/in/kevin-harry-a-78349a329/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a><a href="mailto:kevinharryorg@gmail.com" class="social-icon"><i class="fas fa-envelope"></i></a></div>
-        <div class="contact-note"><i class="fas fa-shield-alt"></i> PGP fingerprint: 5B2C 3F1A 8D9E 4C07 · reach out for collabs or inquiries</div>
+      <div class="project-card">
+        <div class="project-banner">
+          <span class="proj-icon"><i class="fas fa-search"></i></span>
+          <span class="proj-cat">Recon · Automation</span>
+        </div>
+        <div class="project-body">
+          <h3>OP::BUGDETECTOR</h3>
+          <p>Automated bug detection engine that crawls and identifies OWASP vulnerabilities. Reduces manual recon time by ~40%.</p>
+          <div class="code-snip">
+            <span class="dim">$ python bugdetector.py --url target.com</span><br>
+            [*] Crawling endpoints → <span class="ok">212 URLs</span><br>
+            [!] <span class="warn">SQLi at /product?id=10</span>
+          </div>
+        </div>
       </div>
-      <div style="flex: 0.8; background: rgba(5,20,8,0.45); border-radius: 28px; padding: 1.8rem; border: 1px solid rgba(120,160,80,0.3);">
-        <i class="fas fa-tree" style="font-size: 2rem; color: #8ab86e; margin-bottom: 1rem; display: inline-block;"></i>
-        <h3 style="color: #e8f0da; margin-bottom: 1rem;">whisper in the woods</h3>
-        <p style="color: #c4d8a8; line-height: 1.5; font-size: 0.9rem;">No contact form needed — simply send a direct email or connect via social channels. Every message finds its way under the green forest moon.</p>
-        <div style="margin-top: 1.5rem;"><i class="fas fa-moon" style="color: #d4e8a0; margin-right: 0.5rem;"></i><span style="font-family: 'JetBrains Mono'; color: #b8d88a;">encrypted whispers only</span></div>
+      <div class="project-card">
+        <div class="project-banner">
+          <span class="proj-icon"><i class="fas fa-microchip"></i></span>
+          <span class="proj-cat">Kernel · Privesc</span>
+        </div>
+        <div class="project-body">
+          <h3>OP::KERNELSCAN</h3>
+          <p>Kernel-level vulnerability scanner that checks for misconfigurations and privilege escalation vectors.</p>
+          <div class="code-snip">
+            <span class="dim">$ sudo kernel_scanner --deep</span><br>
+            [!] <span class="warn">CVE-2023-2640 detected</span><br>
+            [✓] <span class="ok">Remediation steps saved</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-banner">
+          <span class="proj-icon"><i class="fas fa-wifi"></i></span>
+          <span class="proj-cat">IoT · Firmware</span>
+        </div>
+        <div class="project-body">
+          <h3>IOT::FORESTSCAN</h3>
+          <p>Firmware analysis & IoT security audit framework — scans for default creds and insecure services.</p>
+          <div class="code-snip">
+            <span class="dim">$ iot_scanner --target 192.168.1.0/24</span><br>
+            [⚠] <span class="warn">default password detected</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div></section>
-</main>
+  </div>
+</section>
 
-<footer><div class="container"><p><i class="fas fa-leaf"></i> kevinharry0x — green forest moon · ethical hacker · forever learning</p><p style="margin-top:0.5rem;">gratitude to Hemanth, Kabil, Amithab — the mentors who shaped my path</p></div></footer>
+<!-- ORIGIN -->
+<section id="story">
+  <div class="container">
+    <div class="section-label">background</div>
+    <div class="section-title">Origin Story</div>
+    <div class="origin-grid">
+      <div>
+        <div class="chapter" data-num="CHAPTER I">
+          <h3>The Awakening</h3>
+          <p>My cyber journey truly began in my first year of college. I had always been curious about hacking, but I didn't know where to start. That's when I met <strong class="highlight">Hemanth Karal Varmaa</strong>. I asked him for advice, and over time we became close friends — he became my mentor and teacher. He introduced me to his circle, which included seniors already deep in the field.</p>
+        </div>
+        <div class="chapter" data-num="CHAPTER II">
+          <h3>The Mentors</h3>
+          <p>I became interested in bug bounty and met <strong class="highlight">Malathi</strong> and <strong class="highlight">Rishyendra</strong> — seniors who helped me learn new things and became like family. Hemanth helped me land an internship at <strong class="highlight">IIT</strong> — where everything changed. There I met <strong class="highlight">Kabil Preetham</strong> and <strong class="highlight">Amithab</strong>: two extraordinary minds. Kabil speaks without ego. Amithab's presence still pushes me to learn more deeply.</p>
+        </div>
+        <div class="chapter" data-num="CHAPTER III">
+          <h3>The Eternal Student</h3>
+          <p>If I hadn't met them, my life would have been a looping day without direction. My knowledge is still far from enough, but <strong class="highlight">I will never stop learning</strong>. The people you meet shape your path. Grateful to every mentor who guided me.</p>
+        </div>
+      </div>
+      <div>
+        <div class="quote-panel">
+          <blockquote>
+            "A guide lights the path, but the walker must choose never to stop."
+          </blockquote>
+          <cite>— on mentorship</cite>
+        </div>
+        <div class="proverb-card" style="margin-top:1.5rem;">
+          <p>"The signal travels far for those who dare to transmit from the cold."</p>
+          <span>— kevinharry0x</span>
+        </div>
+        <div class="proverb-card">
+          <p>Gratitude to <span style="color:var(--signal)">Hemanth</span>, <span style="color:var(--aurora-green)">Kabil</span>, <span style="color:var(--aurora-purple)">Amithab</span>, Rishyendra, and Malathi — the mentors who shaped this path.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<div id="copyToast" class="copy-toast">🌿 copied to forest clipboard</div>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">encrypted channel</div>
+    <div class="section-title">Open a Signal</div>
+    <div class="contact-layout">
+      <div class="contact-card">
+        <h3>Reach Me Securely</h3>
+        <div class="contact-row" onclick="copyText('kevinharryorg@gmail.com')">
+          <i class="fas fa-envelope"></i>
+          <span>kevinharryorg@gmail.com</span>
+        </div>
+        <div class="contact-row" onclick="window.open('https://github.com/kevinharryorg-max','_blank')">
+          <i class="fab fa-github"></i>
+          <span>github.com/kevinharryorg-max</span>
+        </div>
+        <div class="contact-row" onclick="window.open('https://www.linkedin.com/in/kevin-harry-a-78349a329/','_blank')">
+          <i class="fab fa-linkedin"></i>
+          <span>linkedin.com/in/kevin-harry-a-78349a329</span>
+        </div>
+        <div class="socials">
+          <a href="https://github.com/kevinharryorg-max" target="_blank" class="soc-btn"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/kevin-harry-a-78349a329/" target="_blank" class="soc-btn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="mailto:kevinharryorg@gmail.com" class="soc-btn"><i class="fas fa-envelope"></i></a>
+        </div>
+        <div class="pgp-note">
+          <i class="fas fa-fingerprint"></i>&nbsp; PGP: 5B2C 3F1A 8D9E 4C07 · open for collabs &amp; inquiries
+        </div>
+      </div>
+      <div class="signal-card">
+        <h3>No Forms Needed</h3>
+        <p>Send a direct email or connect via social channels. Every message gets through. No noise — clear signal only.</p>
+        <div class="enc-badge">
+          <i class="fas fa-lock"></i>
+          ENCRYPTED CHANNELS ONLY
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p><span class="accent">kevinharry0x</span> — ethical hacker · forever learning · signal always on</p>
+    <p>gratitude to Hemanth · Kabil · Amithab · the mentors who lit the path</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast">✓ copied to clipboard</div>
+<a href="#home" class="scroll-up" id="scrollUp"><i class="fas fa-arrow-up"></i></a>
+
 <script>
-  AOS.init({ duration: 700, once: true, offset: 80 });
-  
-  // --- Block Ctrl+A, Ctrl+C, Ctrl+X globally except allowed elements ---
-  document.addEventListener('keydown', function(e) {
-    // Block Ctrl+A (Select All)
-    if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
-      const activeEl = document.activeElement;
-      // Allow inside input or textarea
-      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) {
-        return; // allow native select
-      }
-      // Also allow if selection is inside copy-permitted elements? easier to block globally except inputs
-      e.preventDefault();
-      return false;
-    }
-    // Block Ctrl+C only if source is not an allowed copy area? Actually we want to allow copy from tool commands, contacts.
-    // We don't block ctrl+c globally, because user can select text in allowed regions. So we do nothing.
-    // But to prevent "copy whole page" via ctrl+c we rely on user-select:none for body.
-    // Also block Ctrl+X (cut)
-    if ((e.ctrlKey || e.metaKey) && e.key === 'x') {
-      const activeEl = document.activeElement;
-      if (!(activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA'))) {
-        e.preventDefault();
-        return false;
-      }
-    }
-  });
-  
-  // additional: disable right-click context menu on non-essential areas? optional but forest vibe: allow on copy areas. We'll keep mostly open but no full selection.
-  document.addEventListener('contextmenu', function(e) {
-    let allowContext = false;
-    let target = e.target;
-    while(target) {
-      if(target.classList && (target.classList.contains('tool-command') || target.classList.contains('contact-detail') || target.classList.contains('code-block') || target.classList.contains('skill-tag') || target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
-        allowContext = true;
-        break;
-      }
-      target = target.parentElement;
-    }
-    if(!allowContext) e.preventDefault();
-  });
-  
-  // Copy helper for tool commands + contact details (user can also manually copy text)
-  function copyToClipboard(text, showToast = true) {
-    navigator.clipboard.writeText(text).then(() => {
-      if(showToast) {
-        const toast = document.getElementById('copyToast');
-        toast.style.opacity = '1';
-        setTimeout(() => { toast.style.opacity = '0'; }, 1500);
-      }
-    }).catch(err => console.warn('copy failed', err));
+  // Custom cursor
+  const ring = document.getElementById('cursorRing');
+  const dot  = document.getElementById('cursorDot');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx+'px'; dot.style.top = my+'px'; });
+  function animCursor() {
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx+'px'; ring.style.top = ry+'px';
+    requestAnimationFrame(animCursor);
   }
-  
-  // Add copy functionality to each tool command on click
-  function attachCommandCopy() {
-    const commandDivs = document.querySelectorAll('.tool-command');
-    commandDivs.forEach(div => {
-      div.style.cursor = 'copy';
-      div.addEventListener('click', (e) => {
-        e.stopPropagation();
-        let commandText = div.innerText.replace(/^\$ /, '').trim();
-        copyToClipboard(commandText);
-      });
-    });
-    // also allow contact-detail copy for email/github etc
-    const contactDetails = document.querySelectorAll('.contact-detail');
-    contactDetails.forEach(detail => {
-      detail.addEventListener('click', (e) => {
-        const span = detail.querySelector('span');
-        if(span && detail.getAttribute('onclick')?.includes('copyToClipboard')) return; // email already handled
-        const text = span ? span.innerText : detail.innerText;
-        if(text.includes('github') || text.includes('linkedin')) {
-          // do nothing because open link
-        } else {
-          copyToClipboard(text);
-        }
-      });
-    });
+  animCursor();
+
+  // Scroll up
+  const su = document.getElementById('scrollUp');
+  window.addEventListener('scroll', () => {
+    su.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Copy
+  function copyText(txt) {
+    navigator.clipboard.writeText(txt).then(() => showToast());
   }
-  
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.style.opacity = '1';
+    setTimeout(() => t.style.opacity = '0', 1600);
+  }
+
+  // Tool copy
+  document.addEventListener('click', e => {
+    const cmd = e.target.closest('.tool-cmd');
+    if (cmd) { copyText(cmd.dataset.cmd || cmd.innerText.trim()); }
+  });
+
+  // Tools data
   const tools = [
-    { name: "Nmap", desc: "Network discovery and security scanning. Industry standard for port scanning, OS fingerprinting, and service detection.", category: "Recon", tags: ["Network","Scanning","Port Scan"], skill: "Intermediate", skillLevel: "intermediate", command: "nmap -sV -sC -p- target.com" },
-    { name: "Burp Suite", desc: "Web vulnerability testing platform. Intercept, modify, and analyze HTTP/HTTPS traffic. Essential for web app pentesting.", category: "Web", tags: ["Web","Proxy","Scanner"], skill: "Intermediate", skillLevel: "intermediate", command: "burpsuite &  # configure proxy to 127.0.0.1:8080" },
-    { name: "Metasploit", desc: "Advanced exploitation framework with thousands of modules for penetration testing, payload generation, and post-exploitation.", category: "Exploitation", tags: ["Exploit","Framework","Payload"], skill: "Intermediate", skillLevel: "intermediate", command: "msfconsole -q" },
-    { name: "Wireshark", desc: "Powerful packet analysis tool for network troubleshooting, protocol inspection, and security analysis.", category: "Network", tags: ["Packet","Analysis","Sniffer"], skill: "Intermediate", skillLevel: "intermediate", command: "wireshark &  # or tshark -i eth0" },
-    { name: "SQLmap", desc: "Automatic SQL injection and database takeover tool. Detects and exploits SQL injection flaws.", category: "Exploitation", tags: ["SQLi","Database","Automation"], skill: "Basic", skillLevel: "basic", command: "sqlmap -u 'http://target.com/page?id=1' --dbs" },
-    { name: "Hydra", desc: "Network login brute-forcing tool supporting many protocols (SSH, FTP, HTTP, MySQL, etc.).", category: "Password", tags: ["Bruteforce","Login","Password"], skill: "Basic", skillLevel: "basic", command: "hydra -l admin -P passwords.txt ssh://target.com" }
+    { name:"Nmap", desc:"Network discovery and security scanning. Industry standard for port scanning, OS fingerprinting, and service detection.", category:"Recon", tags:["Network","Scanning","Port Scan"], skill:"Intermediate", level:"intermediate", cmd:"nmap -sV -sC -p- target.com" },
+    { name:"Burp Suite", desc:"Web vulnerability testing platform. Intercept, modify, and analyze HTTP/HTTPS traffic. Essential for web app pentesting.", category:"Web", tags:["Web","Proxy","Scanner"], skill:"Intermediate", level:"intermediate", cmd:"burpsuite &  # configure proxy 127.0.0.1:8080" },
+    { name:"Metasploit", desc:"Advanced exploitation framework with thousands of modules for penetration testing, payload generation, and post-exploitation.", category:"Exploitation", tags:["Exploit","Framework","Payload"], skill:"Intermediate", level:"intermediate", cmd:"msfconsole -q" },
+    { name:"Wireshark", desc:"Powerful packet analysis tool for network troubleshooting, protocol inspection, and security analysis.", category:"Network", tags:["Packet","Analysis","Sniffer"], skill:"Intermediate", level:"intermediate", cmd:"wireshark &  # or tshark -i eth0" },
+    { name:"SQLmap", desc:"Automatic SQL injection and database takeover tool. Detects and exploits SQL injection flaws.", category:"Exploitation", tags:["SQLi","Database","Automation"], skill:"Basic", level:"basic", cmd:"sqlmap -u 'http://target.com/page?id=1' --dbs" },
+    { name:"Hydra", desc:"Network login brute-forcing tool supporting many protocols (SSH, FTP, HTTP, MySQL, etc.).", category:"Password", tags:["Bruteforce","Login","Password"], skill:"Basic", level:"basic", cmd:"hydra -l admin -P passwords.txt ssh://target.com" }
   ];
-  const arsenalGrid = document.getElementById('arsenalGrid');
-  const searchInput = document.getElementById('searchInput');
-  let currentFilter = 'all';
-  function renderTools() {
-    const searchTerm = searchInput.value.toLowerCase();
-    const filtered = tools.filter(tool => {
-      const matchesFilter = currentFilter === 'all' || tool.category === currentFilter || tool.tags.includes(currentFilter);
-      const matchesSearch = tool.name.toLowerCase().includes(searchTerm) || tool.desc.toLowerCase().includes(searchTerm) || tool.tags.some(t => t.toLowerCase().includes(searchTerm));
-      return matchesFilter && matchesSearch;
+
+  const grid = document.getElementById('arsenalGrid');
+  const searchEl = document.getElementById('searchInput');
+  let activeFilter = 'all';
+
+  function render() {
+    const q = searchEl.value.toLowerCase();
+    const filtered = tools.filter(t => {
+      const fMatch = activeFilter === 'all' || t.category === activeFilter || t.tags.includes(activeFilter);
+      const sMatch = !q || t.name.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q) || t.tags.some(x => x.toLowerCase().includes(q));
+      return fMatch && sMatch;
     });
-    arsenalGrid.innerHTML = filtered.map(tool => `<div class="tool-card"><div class="tool-header"><span class="tool-name">${tool.name}</span><span class="skill-badge ${tool.skillLevel}"><i class="fas fa-chart-line"></i> ${tool.skill}</span></div><p class="tool-desc">${tool.desc}</p><div class="tool-tags">${tool.tags.map(t => `<span class="tag">#${t}</span>`).join('')}<span class="tag">${tool.category}</span></div><div class="tool-command"><i class="fas fa-terminal"></i> ${tool.command}</div></div>`).join('');
-    if(filtered.length===0) arsenalGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#c4b88a;">🔍 no tools found</div>`;
-    attachCommandCopy();
+    if (!filtered.length) {
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-dim);font-family:var(--mono);font-size:.8rem;">no tools matching query</div>`;
+      return;
+    }
+    grid.innerHTML = filtered.map(t => `
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-name">${t.name}</span>
+          <span class="skill-badge ${t.level}"><i class="fas fa-signal"></i> ${t.skill}</span>
+        </div>
+        <p class="tool-desc">${t.desc}</p>
+        <div class="tool-tags">${t.tags.map(x=>`<span class="tag">${x}</span>`).join('')}<span class="tag">${t.category}</span></div>
+        <div class="tool-cmd" data-cmd="${t.cmd}" title="click to copy">${t.cmd}</div>
+      </div>`).join('');
   }
-  document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.getAttribute('data-filter'); renderTools(); }); });
-  searchInput.addEventListener('input', renderTools);
-  renderTools();
-  attachCommandCopy();
-  
-  // smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { const targetId = this.getAttribute('href'); if(targetId==="#" || targetId==="") return; const target = document.querySelector(targetId); if(target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }); });
-  
-  // Override global copy to prevent full text but allow selection + copy from allowed zones.
-  // already done by user-select:none on body and user-select:text on specifics.
+
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      activeFilter = b.dataset.filter;
+      render();
+    });
+  });
+  searchEl.addEventListener('input', render);
+  render();
+
+  // Scroll reveal (lightweight)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.chapter, .project-card, .tool-card, .contact-card, .signal-card, .quote-panel, .proverb-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
 </script>
 </body>
 </html>
