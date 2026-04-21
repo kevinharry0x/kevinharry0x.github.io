@@ -21,6 +21,64 @@
 html{scroll-behavior:smooth}
 body{font-family:var(--fn);background:var(--cream);color:var(--t1);overflow-x:hidden;cursor:none}
 img{display:block;width:100%;object-fit:cover}
+
+/* ══ COPY PROTECTION ══
+   Everything is unselectable EXCEPT .tcmd (tool command bars).
+   The overlay blocks right-click UI on all non-command areas.
+══════════════════════ */
+*{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+/* Only the tool command text can be selected (fallback for non-JS copy) */
+.tcmd, .tcmd .ctxt{
+  -webkit-user-select:text;
+  -moz-user-select:text;
+  -ms-user-select:text;
+  user-select:text;
+}
+/* Custom right-click block overlay — invisible, covers whole page */
+#protection-overlay{
+  position:fixed;inset:0;z-index:99999;
+  pointer-events:none; /* JS will toggle this */
+}
+/* Ghost overlay to catch context menu on body */
+body::selection{ background:transparent; }
+/* Show a locked cursor when hovering non-copyable text */
+p, h1, h2, h3, h4, li, span, div.at, .chb, .pvq, .mn, .sh, .hn, .ht{
+  cursor:none;
+}
+/* But command bars always show copy cursor */
+.tcmd{ cursor:copy !important; }
+
+/* ══ COPY TOAST (command copied) ══ */
+#cmd-toast{
+  position:fixed;bottom:2.5rem;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--emerald);border:1px solid var(--gold);
+  color:var(--gold2);font-family:var(--fr);font-size:.58rem;
+  letter-spacing:.25em;padding:.8rem 2.2rem;z-index:99998;
+  opacity:0;transition:all .35s cubic-bezier(.23,1,.32,1);
+  pointer-events:none;white-space:nowrap;
+}
+#cmd-toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ══ BLOCKED TOAST (when user tries to copy text) ══ */
+#block-toast{
+  position:fixed;top:5rem;left:50%;
+  transform:translateX(-50%) translateY(-20px);
+  background:rgba(180,40,40,0.95);
+  border:1px solid rgba(255,100,100,0.5);
+  color:#fff;font-family:var(--fr);font-size:.58rem;
+  letter-spacing:.2em;padding:.75rem 2rem;z-index:99998;
+  opacity:0;transition:all .3s cubic-bezier(.23,1,.32,1);
+  pointer-events:none;white-space:nowrap;
+  display:flex;align-items:center;gap:.7rem;
+}
+#block-toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--cream2)}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
@@ -256,6 +314,14 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.15);padding:
 <div id="cd"></div>
 <div id="cr"></div>
 <div class="toast" id="toast">◆ COPIED ◆</div>
+<div id="cmd-toast">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><polyline points="20,6 9,17 4,12" stroke="#e8c96a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  COMMAND COPIED TO CLIPBOARD
+</div>
+<div id="block-toast">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="rgba(255,150,150,0.9)" stroke-width="2"/><line x1="15" y1="9" x2="9" y2="15" stroke="rgba(255,150,150,0.9)" stroke-width="2" stroke-linecap="round"/><line x1="9" y1="9" x2="15" y2="15" stroke="rgba(255,150,150,0.9)" stroke-width="2" stroke-linecap="round"/></svg>
+  CONTENT IS PROTECTED · ONLY TOOL COMMANDS MAY BE COPIED
+</div>
 
 <!-- ══ NAV ══ -->
 <nav id="nav">
@@ -941,14 +1007,146 @@ document.getElementById('aFilters').addEventListener('click',e=>{
 ts.addEventListener('input',render); render();
 
 /* ═══════════════════════════════════════
-   COPY TO CLIPBOARD
+   COPY — only for tool commands (.tcmd click)
 ═══════════════════════════════════════ */
 function cp(text){
   navigator.clipboard.writeText(text).then(()=>{
-    const t=document.getElementById('toast');
-    t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),1700);
+    // Show the green "command copied" toast
+    const t = document.getElementById('cmd-toast');
+    t.classList.add('on');
+    setTimeout(()=>t.classList.remove('on'), 2000);
   });
 }
+
+/* ═══════════════════════════════════════
+   COPY PROTECTION
+   Blocks: Ctrl+A, Ctrl+C, Ctrl+X, Ctrl+U,
+           Ctrl+S, F12, right-click, drag-select,
+           text selection everywhere except .tcmd
+═══════════════════════════════════════ */
+(function protectContent(){
+
+  /* ── 1. Show "blocked" toast ── */
+  function showBlocked(){
+    const b = document.getElementById('block-toast');
+    b.classList.add('on');
+    clearTimeout(b._t);
+    b._t = setTimeout(()=>b.classList.remove('on'), 2200);
+  }
+
+  /* ── 2. Is target inside a .tcmd element? ── */
+  function insideCmd(el){
+    while(el){
+      if(el.classList && el.classList.contains('tcmd')) return true;
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  /* ── 3. Block keyboard shortcuts ── */
+  document.addEventListener('keydown', function(e){
+    const ctrl = e.ctrlKey || e.metaKey;
+
+    // Block Ctrl+A (select all)
+    if(ctrl && e.key === 'a'){
+      e.preventDefault(); e.stopPropagation();
+      showBlocked(); return false;
+    }
+    // Block Ctrl+C (copy) — unless focus is inside a .tcmd
+    if(ctrl && e.key === 'c'){
+      if(!insideCmd(document.activeElement)){
+        e.preventDefault(); e.stopPropagation();
+        showBlocked(); return false;
+      }
+    }
+    // Block Ctrl+X (cut)
+    if(ctrl && e.key === 'x'){
+      e.preventDefault(); e.stopPropagation();
+      showBlocked(); return false;
+    }
+    // Block Ctrl+U (view source)
+    if(ctrl && e.key === 'u'){
+      e.preventDefault(); e.stopPropagation();
+      return false;
+    }
+    // Block Ctrl+S (save page)
+    if(ctrl && e.key === 's'){
+      e.preventDefault(); e.stopPropagation();
+      return false;
+    }
+    // Block Ctrl+P (print)
+    if(ctrl && e.key === 'p'){
+      e.preventDefault(); e.stopPropagation();
+      return false;
+    }
+    // Block F12 (devtools)
+    if(e.key === 'F12'){
+      e.preventDefault(); return false;
+    }
+    // Block Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C (devtools)
+    if(ctrl && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)){
+      e.preventDefault(); return false;
+    }
+  }, true);
+
+  /* ── 4. Block right-click context menu (except on .tcmd) ── */
+  document.addEventListener('contextmenu', function(e){
+    if(!insideCmd(e.target)){
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  /* ── 5. Block drag-to-select start (except on .tcmd) ── */
+  document.addEventListener('dragstart', function(e){
+    if(!insideCmd(e.target)){
+      e.preventDefault(); return false;
+    }
+  });
+
+  /* ── 6. Block clipboard copy event (belt-and-suspenders) ── */
+  document.addEventListener('copy', function(e){
+    // Allow only if the selection is entirely inside a .tcmd
+    const sel = window.getSelection();
+    if(sel && sel.rangeCount > 0){
+      const range = sel.getRangeAt(0);
+      const container = range.commonAncestorContainer;
+      if(insideCmd(container.nodeType === 3 ? container.parentElement : container)){
+        return; // allow
+      }
+    }
+    e.clipboardData && e.clipboardData.setData('text/plain','');
+    e.preventDefault();
+    showBlocked();
+  });
+
+  /* ── 7. Block print screen / screenshot attempt (best-effort) ── */
+  document.addEventListener('keyup', function(e){
+    if(e.key === 'PrintScreen'){
+      navigator.clipboard.writeText('').catch(()=>{});
+    }
+  });
+
+  /* ── 8. Wipe any accidental text selection on mouseup (outside .tcmd) ── */
+  document.addEventListener('mouseup', function(e){
+    if(insideCmd(e.target)) return;
+    const sel = window.getSelection();
+    if(sel && sel.toString().length > 0){
+      sel.removeAllRanges();
+    }
+  });
+
+  /* ── 9. Block touch-based selection (mobile long-press) ── */
+  document.addEventListener('touchstart', function(e){
+    if(!insideCmd(e.target)){
+      // prevent long-press selection
+      document.body.style.webkitUserSelect = 'none';
+    } else {
+      document.body.style.webkitUserSelect = '';
+    }
+  });
+
+})();
 
 /* ═══════════════════════════════════════
    SCROLL REVEAL
